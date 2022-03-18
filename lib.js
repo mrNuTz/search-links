@@ -1,46 +1,49 @@
 
+const tags = ['a', 'li', 'ul', 'h1', 'pre', 'span', 'div', 'input', 'table', 'tr', 'td']
 
-const tags = ['a', 'li', 'ul', 'h1', 'pre', 'span', 'div']
-
-
-const el = (tag = 'div', props = {}, children = []) => {
+export const el = (tag = 'div', props = {}, ...children) => {
   const elem = document.createElement(tag)
-  for (k in props) {
+
+  for (const k in props) {
     if (k === 'style')
-      for (k2 in props.style)
+      for (const k2 in props.style)
         elem.style[k2] = props.style[k2]
     else
       elem[k] = props[k]
   }
 
-  for (c of children)
+  for (const c of children)
     elem.append(c)
 
   return elem
 }
 
-elCreators = tags.reduce((elCreators, tag) => {
-  elCreators[tag] = (props = {}, children = []) => el(tag, props, children)
+export const elCreators = tags.reduce((elCreators, tag) => {
+  elCreators[tag] = (props = {}, ...children) => el(tag, props, ...children)
   return elCreators
 }, {})
 
-const getHash = () => {
+export const getHash = () => {
   return decodeURIComponent(document.location.hash.slice(1))
 }
 
-const Frame = (...children) => el('div', {}, children)
+export const Frame = (...children) => el('div', {}, ...children)
 
-const txt = (text) => el('span', { textContent: text })
+export const txt = (text) => el('span', { textContent: text })
 
-const root = document.getElementById('app-root')
-const render = (Els) => {
-  root.replaceChildren()
+let _state = {}
+let _Root = () => el('div')
+let _reducer = (state) => state
 
-  if (Array.isArray(Els))
-    for (El of Els)
-      root.append(El())
-  else
-    root.append(Els())
+export const init = (Root, reducer, state) => {
+  _Root = Root
+  _reducer = reducer
+  _state = state
 }
 
-Object.assign(window, { el, getHash, render, txt, Frame }, elCreators)
+export const dispatch = (action) => {
+  _state = _reducer(_state, action)
+  console.log(action.type, action, _state)
+  document.body.replaceChildren()
+  document.body.append(_Root(_state))
+}

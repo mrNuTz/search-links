@@ -1,0 +1,52 @@
+html {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  font-family: 'Consolas', monospace;
+  font-size: 100%;
+  line-height: 1.5;
+}
+body {
+  margin: 0;
+  padding: 1em;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  overflow-x: hidden;
+}
+input {
+  font-family: 'Consolas', monospace;
+  font-size: 1rem;
+  border: 0;
+  border-bottom: 1px solid black;
+}
+a {
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+ul {
+  display: block;
+  padding: 0;
+  margin: 1rem 0;
+}
+ul > li {
+  margin: .5rem 0;
+  display: block;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.search {
+  display: flex;
+}
+.search > *:first-child  {
+  flex: 0 0 auto;
+  padding-right: .5em;
+}
+.search > *:nth-child(2) {
+  flex: 1 1 auto;
+}
