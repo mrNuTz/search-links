@@ -23,10 +23,6 @@ export const elCreators = tags.reduce((elCreators, tag) => {
   return elCreators
 }, {})
 
-export const getHash = () => {
-  return decodeURIComponent(document.location.hash.slice(1))
-}
-
 export const Frame = (...children) => el('div', {}, ...children)
 
 export const txt = (text) => el('span', { textContent: text })

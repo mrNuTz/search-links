@@ -1,4 +1,4 @@
-import { init, dispatch, getHash, txt, elCreators, Frame } from './lib.js'
+import { init, dispatch, txt, elCreators, Frame } from './lib.js'
 const { div, h1, ul, pre, a, li, input } = elCreators
 
 const engines = [
@@ -56,8 +56,14 @@ const App = ({ q }) => Frame(
     .map(a => li({}, a)))
 )
 
-window.onhashchange = () => dispatch({ type: 'hash', hash: getHash() })
+window.onhashchange = () => dispatch({
+  type: 'hash',
+  hash: decodeURIComponent(document.location.hash.slice(1))
+})
 
 init(Root, reducer, { q: '' })
 
-dispatch({ type: 'init', hash: getHash() })
+dispatch({
+  type: 'init',
+  hash: decodeURIComponent(document.location.hash.slice(1).replace(/\+/g, ' ')),
+})
