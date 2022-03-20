@@ -27,19 +27,39 @@ export const Frame = (...children) => el('div', {}, ...children)
 
 export const txt = (text) => el('span', { textContent: text })
 
-let _state = {}
-let _Root = () => el('div')
+let _UI = (state = {}) => el('div')
 let _reducer = (state) => state
+let _state = {}
+let cause = (beforeState, action, afterState) => true
+let effect = (beforeState, action, afterState, dispatchAfter) =>
+  console.log(action.type, action, afterState)
+let _causeEffectPairs = [
+  [cause, effect],
+]
 
-export const init = (Root, reducer, state) => {
-  _Root = Root
+export const init = (
+  UI = _UI,
+  reducer = _reducer,
+  state = _state,
+  causeEffectPairs = _causeEffectPairs
+) => {
+  _UI = UI
   _reducer = reducer
   _state = state
+  _causeEffectPairs = causeEffectPairs
 }
 
+const dispatchAfter = (action) => window.setTimeout(() => dispatch(action))
+
 export const dispatch = (action) => {
+  const beforeState = _state
   _state = _reducer(_state, action)
-  console.log(action.type, action, _state)
+
+  for (const [p, r] of _causeEffectPairs) {
+    if (p(beforeState, action, _state))
+      r(beforeState, action, _state, dispatchAfter)
+  }
+
   document.body.replaceChildren()
-  document.body.append(_Root(_state))
+  document.body.append(_UI(_state))
 }
