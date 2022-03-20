@@ -1,6 +1,6 @@
 # Search Interceptor
 
 ## Usage
-Pass a search query via hash: `.../search-links/#<search-query>`
+Pass a search query via hash: https://mrnutz.github.io/search-links/#Search+Term
 
 ![screenshot](./screenshot.png)

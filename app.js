@@ -7,6 +7,7 @@ const engines = [
   ['GMX', 'https://search.gmx.com/web/result?q=%s&origin=web&comp=web_start_sf&p=gmx-com'],
   ['Wikipedia', 'https://en.wikipedia.org/w/index.php?title=Special:Search&search=%s'],
   ['MDN', 'https://developer.mozilla.org/search?q=%s'],
+  ['SoundCloud', 'https://soundcloud.com/search?q=%s'],
   ['Python', 'https://docs.python.org/3/search.html?q=%s&check_keywords=yes&area=default'],
   ['Git', 'https://git-scm.com/search/results?search=%s'],
   ['PyPI', 'https://pypi.org/search/?q=%s'],
