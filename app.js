@@ -64,14 +64,18 @@ window.onhashchange = () => dispatch({
 })
 
 const changeTitle = [
-  (_, action) => ['input', 'hash', 'init'].includes(action.type),
+  (before, _, after) => before.q !== after.q,
   (_, __, afterState) => document.title = `${afterState.q} - Search Interceptor`,
 ]
 const logActions = [
   () => true,
   (_, action, afterState) => console.log(action.type, action, afterState)
 ]
-const causeEffectPairs = [changeTitle, logActions]
+const updateHash = [
+  (_, action) => ['init', 'input'].includes(action.type),
+  (_, __, after) => document.location.hash = encodeURIComponent(after.q)
+]
+const causeEffectPairs = [changeTitle, logActions, updateHash]
 const initState = { q: '' }
 
 init(UI, reducer, initState, causeEffectPairs)
